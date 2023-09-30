@@ -35,54 +35,86 @@
       Download
     </button>
 
-    <!-- Replace your client-side JavaScript code with this -->
+    <div id="imageContainer"></div>
+
+    <!-- ... (previous HTML code) ... -->
+
     <script>
-      const checkboxStates = {}; // Object to track checkbox states
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkboxStates = {
+          checkbox1: false, // Initialize with all elements not hidden
+          checkbox2: false,
+          checkbox3: false,
+        };
 
-      // Function to update checkbox state in the object
-      function updateCheckboxState(checkboxId) {
-        const checkbox = document.getElementById(checkboxId);
-        if (checkbox) {
-          checkboxStates[checkboxId] = checkbox.checked;
-        }
-      }
-
-      document.getElementById("checkbox1").addEventListener("change", () => {
-        updateCheckboxState("checkbox1");
-      });
-
-      document.getElementById("checkbox2").addEventListener("change", () => {
-        updateCheckboxState("checkbox2");
-      });
-
-      document.getElementById("checkbox3").addEventListener("change", () => {
-        updateCheckboxState("checkbox3");
-      });
-
-      document
-        .getElementById("convertButton")
-        .addEventListener("click", async () => {
-          try {
-            console.log("Convert clicked");
-
-            // Send the checkbox states to the server
-            const response = await fetch("/convert", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ checkboxStates }),
-            });
-
-            if (response.ok) {
-              console.log("Webpage converted to JPG");
-            } else {
-              console.error("Error:", response.statusText);
-            }
-          } catch (err) {
-            console.error("Error:", err);
+        // Function to update checkbox state in the object
+        function updateCheckboxState(checkboxId) {
+          const checkbox = document.getElementById(checkboxId);
+          if (checkbox) {
+            checkboxStates[checkboxId] = checkbox.checked;
           }
+        }
+
+        document.getElementById("checkbox1").addEventListener("change", () => {
+          updateCheckboxState("checkbox1");
         });
+
+        document.getElementById("checkbox2").addEventListener("change", () => {
+          updateCheckboxState("checkbox2");
+        });
+
+        document.getElementById("checkbox3").addEventListener("change", () => {
+          updateCheckboxState("checkbox3");
+        });
+
+        document
+          .getElementById("convertButton")
+          .addEventListener("click", async () => {
+            try {
+              console.log("Convert clicked");
+
+              // Hide elements based on checkbox states
+              const convertButton = document.getElementById("convertButton");
+              const downloadButton = document.getElementById("downloadButton");
+              if (checkboxStates.checkbox1) {
+                convertButton.style.display = "none";
+              }
+              if (checkboxStates.checkbox2) {
+                downloadButton.style.display = "none";
+              }
+
+              // Send the checkbox states to the server
+              const response = await fetch("/convert", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ checkboxStates }),
+              });
+
+              // Restore elements to their original state
+              convertButton.style.display = "block";
+              downloadButton.style.display = "block";
+
+              if (response.ok) {
+                console.log("Webpage converted to JPG");
+
+                // Assuming the server saves the image as 'webpage.jpg'
+                const imagePath = "./page.jpg";
+                const originalFileName = "page.jpg"; // Change this to the desired file name
+
+                // Display the image in the 'imageContainer' div
+                const imageContainer =
+                  document.getElementById("imageContainer");
+                imageContainer.innerHTML = `<img src="${imagePath}" alt="Converted Image" />`;
+              } else {
+                console.error("Error:", response.statusText);
+              }
+            } catch (err) {
+              console.error("Error:", err);
+            }
+          });
+      });
     </script>
   </body>
 </html>

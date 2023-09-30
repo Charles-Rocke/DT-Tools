@@ -16,9 +16,9 @@ app.get("/", (req, res) => {
 app.post("/convert", async (req, res) => {
   try {
     console.log("Convert request received");
-
-    // Get the checkbox states from the request
-    const { checkboxStates } = req.body;
+    console.log("RED BODY:", req.body);
+    // Get the checkbox states and button display states from the request
+    const { checkboxStates, buttonDisplay } = req.body;
     console.log(checkboxStates);
 
     // Launch Puppeteer
@@ -47,15 +47,34 @@ app.post("/convert", async (req, res) => {
       }
     }
 
+    // Update button displays based on the request data
+    for (const buttonId in buttonDisplay) {
+      console.log(buttonId);
+      if (buttonDisplay.hasOwnProperty(buttonId)) {
+        const displayValue = buttonDisplay[buttonId];
+        await page.evaluate(
+          (id, display) => {
+            const button = document.getElementById(id);
+            if (button) {
+              button.style.display = display;
+            }
+          },
+          buttonId,
+          displayValue
+        );
+      }
+    }
+
     // Capture a screenshot of the entire webpage
     const screenshot = await page.screenshot({
       type: "jpeg",
-      quality: 90,
+      quality: 100,
       fullPage: true,
     });
 
-    // Save the screenshot as a JPG file
-    fs.writeFileSync("webpage.jpg", screenshot);
+    // Save the screenshot as a JPG file in the public directory
+    const screenshotPath = path.join(__dirname, "public", "page.jpg");
+    fs.writeFileSync(screenshotPath, screenshot);
 
     // Close the browser
     await browser.close();
