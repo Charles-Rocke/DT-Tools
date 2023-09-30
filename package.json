@@ -167,7 +167,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build": "npm build"
+    "build": "npm run build"
   },
   "author": "spOOk",
   "license": "ISC"
