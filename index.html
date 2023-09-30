@@ -68,19 +68,22 @@
               console.log("Convert clicked");
 
               // Send the checkbox states to the server
-              const response = await fetch("/convert", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ checkboxStates }),
-              });
+              const response = await fetch(
+                "https://main--celebrated-pie-755e6e.netlify.app/convert",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ checkboxStates }),
+                }
+              );
 
               if (response.ok) {
                 console.log("Webpage converted to JPG");
 
                 // Assuming the server saves the image as 'webpage.jpg'
-                const imagePath = "./page.jpg";
+                const imagePath = "page.jpg";
                 const originalFileName = "page.jpg"; // Change this to the desired file name
 
                 // Display the image in the 'imageContainer' div
