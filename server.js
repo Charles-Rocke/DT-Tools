@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json()); // Parse JSON request body
+console.log(process.env);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
@@ -24,6 +25,7 @@ app.post("/convert", async (req, res) => {
     // Launch Puppeteer
     // Configure Puppeteer to use the installed Chrome binary
     const browser = await puppeteer.launch({
+      executablePath: "/usr/bin/chromium", // Path to Chromium on Linux
       args: ["--no-sandbox"], // Use --no-sandbox in some environments
     });
     const page = await browser.newPage();
