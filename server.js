@@ -25,8 +25,9 @@ app.post("/convert", async (req, res) => {
     // Launch Puppeteer
     // Configure Puppeteer to use the installed Chrome binary
     const browser = await puppeteer.launch({
-      headless: false, // Path to Chromium on Linux
-      args: ["--no-sandbox"], // Use --no-sandbox in some environments
+      executablePath:
+        "C:\\Users\\sp00k\\.cache\\puppeteer\\chrome\\win64-117.0.5938.92\\chrome.exe", // Use the correct path
+      args: ["--no-sandbox"],
     });
     const page = await browser.newPage();
 
