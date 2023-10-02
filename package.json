@@ -157,7 +157,7 @@
     "pend": "^1.2.0",
     "whatwg-url": "^5.0.0",
     "webidl-conversions": "^3.0.1",
-    "express": "^4.18.2",
+    "express": "^4.17.1",
     "tr46": "^0.0.3",
     "send": "^0.18.0",
     "cross-fetch": "^4.0.0",
