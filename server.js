@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core"); // Use puppeteer-core
 const fs = require("fs");
 
 const app = express();
@@ -22,7 +22,11 @@ app.post("/convert", async (req, res) => {
     console.log(checkboxStates);
 
     // Launch Puppeteer
-    const browser = await puppeteer.launch();
+    // Configure Puppeteer to use the installed Chrome binary
+    const browser = await puppeteer.launch({
+      channel: "chrome", // Replace with the actual path to Chrome on your Render environment
+      args: ["--no-sandbox"], // Use --no-sandbox in some environments
+    });
     const page = await browser.newPage();
 
     // Load the locally hosted HTML file
