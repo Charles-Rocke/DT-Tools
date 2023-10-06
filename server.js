@@ -24,11 +24,7 @@ app.post("/convert", async (req, res) => {
 
     // Launch Puppeteer
     // Configure Puppeteer to use the installed Chrome binary
-    const browser = await puppeteer.launch({
-      executablePath:
-        "C:\\Users\\sp00k\\.cache\\puppeteer\\chrome\\win64-117.0.5938.92\\chrome.exe", // Use the correct path
-      args: ["--no-sandbox"],
-    });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     // Load the locally hosted HTML file
